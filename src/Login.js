@@ -18,10 +18,11 @@ class Login extends Component {
         })
     }
 
-    submitForm = () => {
+    submitForm = async () => {
         console.log(this.state.email)
         console.log(this.state.password)
-        await api.post('', {email, password})
+        const {email, password} = this.state
+        const token = await api.post('/api/authenticate', {email, password})
     }
 
     render () {
