@@ -19,11 +19,18 @@ class Login extends Component {
     }
 
     submitForm = async () => {
-        console.log(this.state.email)
-        console.log(this.state.password)
         const {email: username, password} = this.state
-        const token = await api.post('/api/authenticate', {username, password})
-        console.log(token)
+        const response = await api.post('/api/login', {username, password})
+        localStorage.setItem('token', response.data.token)
+    }
+
+    testToken = async () => {
+        const response = await api.get('/api/admin')
+        console.log(response)
+    }
+
+    logout = () => {
+        localStorage.removeItem('token')
     }
 
     render () {
@@ -37,6 +44,8 @@ class Login extends Component {
                 <label>Password</label>
                 <input id="password" type="password" name="password" value={password} onChange={this.handleChange}/>
                 <input type="button" value="Login" onClick={this.submitForm} />
+                <input type="button" value="Test" onClick={this.testToken} />
+                <input type="button" value="Logout" onClick={this.logout} />
             </div>
         )
     }
